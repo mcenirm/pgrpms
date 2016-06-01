@@ -5,12 +5,12 @@
 %global pginstdir /usr/pgsql-9.4
 %global sname	postgis
 %{!?utils:%global	utils 1}
-%{!?raster:%global	raster 0}
+%{!?raster:%global	raster 1}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -167,6 +167,8 @@ rm -rf %{buildroot}
 %if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/share/extension/%{sname}--*.sql
+%{pginstdir}/share/extension/%{sname}.control
 %endif
 
 %files client
@@ -191,6 +193,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Jun 1 2016 Michael McEniry <mcenirm@uah.edu> - 2.1.8-2
+- Include postgis extension in postgis2_94 rpm:
+  https://github.com/mcenirm/pgrpms/issues/1
+
 * Tue Jul 7 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.8-1
 - Update to 2.1.8, per changes described at:
   http://postgis.net/2015/07/07/postgis-2.1.8
